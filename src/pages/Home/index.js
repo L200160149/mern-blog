@@ -1,11 +1,37 @@
-import React from 'react'
+import React from "react";
+import { Button, Gap } from "../../components";
+import { BlogItem } from "../../components/moleculs";
+import "./home.css";
+import { useHistory } from "react-router-dom";
 
 const Home = () => {
+  const history = useHistory();
   return (
-    <div>
-        <h1>Home Page</h1>
-    </div>
-  )
-}
+    <div className="home-page-wrapper">
+      <div className="create-wrapper">
+        <Button
+          title="create blog"
+          onClick={() => history.push("/create-blog")}
+        />
+      </div>
 
-export default Home
+      <Gap height={20} />
+
+      <div className="content-wrapper">
+        <BlogItem />
+        <BlogItem />
+        <BlogItem />
+      </div>
+
+      <div className="pagination">
+        <Button title="Previous" />
+        <Gap width={20} />
+        <Button title="Next" />
+      </div>
+
+      <Gap height={20} />
+    </div>
+  );
+};
+
+export default Home;

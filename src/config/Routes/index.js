@@ -1,26 +1,26 @@
 import React from "react";
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Login, Register, Home } from "../../pages";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Login, Register, MainApp } from "../../pages";
 
-const Routes = () => {
+const Url = () => {
   return (
     <Router>
-        <Routes>
-            <Route path="/login">
-                <Login/>
-            </Route>
+      <Switch>
+        <Route path="/login">
+          <Login />
+        </Route>
 
-            <Route path="/register">
-                <Register/>
-            </Route>
+        <Route path="/register">
+          <Register />
+        </Route>
 
-            <Route path="/">
-                <Home/>
-            </Route>
-        </Routes>
+        <Route path="/">
+          <MainApp />
+        </Route>
+      </Switch>
     </Router>
-  )
-}
+  );
+};
 
-export default Routes
+export default Url;
