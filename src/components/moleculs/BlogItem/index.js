@@ -1,18 +1,20 @@
 import React from "react";
-import { RegisterBg } from "../../../assets";
 import "./blogItem.css";
 import { useHistory } from "react-router-dom";
 import { Button, Gap } from "../../atoms";
 
-function BlogItem() {
+const BlogItem = (props) => {
   const history = useHistory();
+  // destructering props agar pemanggilan menjadi lebih singkat
+  // sebelumnya {props.title} -> {title}
+  const {image, title, name, date, body} = props;
   return (
     <div className="blog-item">
-      <img className="image-thumb" src={RegisterBg} alt="post" />
+      <img className="image-thumb" src={image} alt="post" />
       <div className="content-detail">
-        <p className="title">Title Blog</p>
-        <p className="author">Author</p>
-        <p className="body">Lorem ipsum</p>
+        <p className="title">{title}</p>
+        <p className="author">{name} - {date}</p>
+        <p className="body">{body}</p>
 
         <Gap height={20} />
 
