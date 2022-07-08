@@ -6,42 +6,67 @@ import { useHistory } from "react-router-dom";
 import Axios from "axios";
 // penerapan dispatch konsepnya sama seperti state lokal tapi penggunaanya/datanya secara global
 import { useDispatch, useSelector } from "react-redux";
+import { setDataBlog } from "../../config/redux/action";
 
 const Home = () => {
-  // state lokal
+
+  // untuk pagination
+  const [counter, setCounter] = useState(1);
+
+  // // state lokal
   // const [dataBlog, setDataBlog] = useState([]);
 
   // menggunakan selector karena akan menggunakan functional component
-  const {dataBlogs, name} = useSelector(state => state)
-  console.log('data blog global: ', dataBlogs)
-
+  // const {dataBlogs, name} = useSelector(state => state)
+    // spesifikasikan state (HomeReducer atau GlobalReducer)
+  const {dataBlog, page} = useSelector(state => state.homeReducer)
+  console.log('page: ', page)
   // untuk pengkondisian dari store (diterapkan sebelum pemanggilan API)
   const dispatch = useDispatch();
+
+  // console.log('data blog global: ', dataBlogs)
+
   // get data from API using Axios
   useEffect(() => {
-    // penerapan dispatch
-    setTimeout(() => {
-      dispatch({type: 'UPDATE_NAME'})
-    }, 3000)
+    // // penerapan dispatch
+    // setTimeout(() => {
+    //   // dispatch({type: 'UPDATE_NAME'})
+    // }, 3000)
     
-    Axios.get('http://localhost:4000/v1/blog/posts')
-    .then(result => {
-      // get array data
-      const responseAPI = result.data;
-      console.log('data API: ', responseAPI)
-      
-      // // state lokal
-      // setDataBlog(responseAPI.data)
+    // dipindah ke mode async ke action
+        // Axios.get('http://localhost:4000/v1/blog/posts')
+        // .then(result => {
+        //   // get array data
+        //   const responseAPI = result.data;
+        //   console.log('data API: ', responseAPI)
+          
+        //   // // // state lokal
+        //   // setDataBlog(responseAPI.data)
 
-      // penerapan dispatch
-      dispatch({type: 'UPDATE_DATA_BLOG', payload: responseAPI.data})
-    })
-    .catch(err => {
-      console.log('error: ', err)
-    })
+        //   // penerapan dispatch
+        //   dispatch(setDataBlog(responseAPI.data))
+        // })
+        // .catch(err => {
+        //   console.log('error: ', err)
+        // })
+          // memanggil page menggunakan counter
+        dispatch(setDataBlog(counter))
+    // dipindah ke mode async ke action
+
     // without [] it will inifinity loop
-  }, [dispatch])
+  }, [counter, dispatch])
+  
   const history = useHistory();
+
+  const previous = () => {
+    setCounter(counter <= 1 ? 1 : counter - 1)
+    console.log(counter)
+  }
+  const next = () => {
+    setCounter(counter === page.totalPage ? page.totalPage : counter + 1)
+    console.log(counter)
+  }
+
   return (
     <div className="home-page-wrapper">
       <div className="create-wrapper">
@@ -50,11 +75,10 @@ const Home = () => {
           onClick={() => history.push("/create-blog")}
         />
       </div>
-    <p>{name}</p>
       <Gap height={20} />
 
       <div className="content-wrapper">
-        {dataBlogs.map(blog => {
+        {dataBlog.map(blog => {
           return <BlogItem 
           key={blog._id} 
           image={`http://localhost:4000/${blog.image}`}
@@ -65,9 +89,11 @@ const Home = () => {
       </div>
 
       <div className="pagination">
-        <Button title="Previous" />
+        <Button title="Previous" onClick={previous} />
         <Gap width={20} />
-        <Button title="Next" />
+        <p className="text-page">{page.currentPage} / {page.totalPage}</p>
+        <Gap width={20} />
+        <Button title="Next" onClick={next} />
       </div>
 
       <Gap height={20} />
