@@ -2,11 +2,12 @@ import React from "react";
 import { RegisterBg } from "../../../assets";
 import "./upload.css";
 
-function Upload() {
+const Upload = ({img, ...rest}) => {
   return (
     <div className="upload">
-      <img className="preview" src={RegisterBg} alt="preview" />
-      <input type="file" />
+      {/* jika ada image */}
+      {img && <img className="preview" src={img} alt="preview" />}
+      <input type="file" {...rest} />
     </div>
   );
 }
