@@ -7,7 +7,7 @@ const BlogItem = (props) => {
   const history = useHistory();
   // destructering props agar pemanggilan menjadi lebih singkat
   // sebelumnya {props.title} -> {title}
-  const {image, title, name, date, body} = props;
+  const {image, title, name, date, body, _id} = props;
   return (
     <div className="blog-item">
       <img className="image-thumb" src={image} alt="post" />
@@ -20,7 +20,7 @@ const BlogItem = (props) => {
 
         <Button
           title="View Detail"
-          onClick={() => history.push("/detail-blog")}
+          onClick={() => history.push(`/detail-blog/${_id}`)}
         />
       </div>
     </div>

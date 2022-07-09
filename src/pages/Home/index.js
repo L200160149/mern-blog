@@ -84,7 +84,8 @@ const Home = () => {
           image={`http://localhost:4000/${blog.image}`}
           title={blog.title}
           body={blog.body}
-          date={blog.date} />
+          date={blog.date}
+          _id={blog._id} />
         })}
       </div>
 
